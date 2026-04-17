@@ -1,4 +1,4 @@
-module fullcycle-auction_go
+module github.com/israelmiranda/go-auction
 
 go 1.20
 

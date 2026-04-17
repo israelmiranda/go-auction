@@ -2,12 +2,13 @@ package bid_usecase
 
 import (
 	"context"
-	"fullcycle-auction_go/configuration/logger"
-	"fullcycle-auction_go/internal/entity/bid_entity"
-	"fullcycle-auction_go/internal/internal_error"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/israelmiranda/go-auction/configuration/logger"
+	"github.com/israelmiranda/go-auction/internal/entity/bid_entity"
+	"github.com/israelmiranda/go-auction/internal/internal_error"
 )
 
 type BidInputDTO struct {

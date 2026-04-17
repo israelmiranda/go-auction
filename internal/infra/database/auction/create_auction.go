@@ -2,9 +2,10 @@ package auction
 
 import (
 	"context"
-	"fullcycle-auction_go/configuration/logger"
-	"fullcycle-auction_go/internal/entity/auction_entity"
-	"fullcycle-auction_go/internal/internal_error"
+
+	"github.com/israelmiranda/go-auction/configuration/logger"
+	"github.com/israelmiranda/go-auction/internal/entity/auction_entity"
+	"github.com/israelmiranda/go-auction/internal/internal_error"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )
