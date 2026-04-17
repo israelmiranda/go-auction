@@ -1,6 +1,6 @@
 module github.com/israelmiranda/go-auction
 
-go 1.20
+go 1.26
 
 require (
 	github.com/gin-gonic/gin v1.9.1
