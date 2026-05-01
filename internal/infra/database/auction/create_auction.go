@@ -2,11 +2,14 @@ package auction
 
 import (
 	"context"
+	"os"
+	"time"
 
 	"github.com/israelmiranda/go-auction/configuration/logger"
 	"github.com/israelmiranda/go-auction/internal/entity/auction_entity"
 	"github.com/israelmiranda/go-auction/internal/internal_error"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -47,5 +50,38 @@ func (ar *AuctionRepository) CreateAuction(
 		return internal_error.NewInternalServerError("Error trying to insert auction")
 	}
 
+	go func() {
+		select {
+		case <-time.After(getAuctionInterval()):
+			update := bson.M{
+				"$set": bson.M{
+					"status": auction_entity.Completed,
+				},
+			}
+			filter := bson.M{"_id": auctionEntityMongo.Id}
+
+			_, err := ar.Collection.UpdateOne(ctx, filter, update)
+			if err != nil {
+				logger.Error("Error trying to update auction status to completed", err)
+				return
+			}
+		}
+	}()
+
 	return nil
+}
+
+func getAuctionInterval() time.Duration {
+	auctionInterval := os.Getenv("AUCTION_INTERVAL")
+	if auctionInterval == "" {
+		return 5 * time.Minute
+	}
+
+	duration, err := time.ParseDuration(auctionInterval)
+	if err != nil {
+		logger.Error("Error trying to parse auction interval", err)
+		return 5 * time.Minute
+	}
+
+	return duration
 }
